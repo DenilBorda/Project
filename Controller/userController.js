@@ -36,25 +36,45 @@ exports.createUser = async(req,res)=>{
 exports.loginUser = async(req,res)=>{
     try {
         const {Email,Password} = req.body;
-        if(!user){
+        const Exist = await User.findOne({Email});
+        if(!Exist){
             return res.json({msg:'User not Found'});
         }
-        const Match = await bcrypt.compare(Password,user.Password);
+        const Match = await bcrypt.compare(Password,Exist.Password);
         if(!Match){
             return res.json({msg:'User Password Incorrect'});
         }
-        
+        const token = jwt.sign({userId:User._id},process.env.jwtoken,{expiresIn:'7d'});
+        res.json({msg:'User is Login',token});
         
     } catch (error) {
-        console.log(err);
+        console.log(error);
         res.json({msg:'server error'});
     }
 }
 
 exports.getUser = async(req,res)=>{
-
+    try {
+        const user = await User.findById(req.User._id).select('-Password')
+        res.json(user) 
+    } catch (error) {
+        console.log(error);
+        res.json({msg:'server error'});
+    }
 }
 
+exports.changePassword = async(req,res)=>{
+    try {
+        const {Password,Confrim_Password} = req.body
+        if(Password === Confrim_Password){
+
+        }
+        
+    } catch (error) {
+        console.log(error);
+        res.json({msg:'server error'});
+    }
+}
 exports.updateUser = async(req,res)=>{
 
 }
