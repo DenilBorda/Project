@@ -3,6 +3,7 @@ const express  = require('express');
 const server = express();
 const mongoose = require('mongoose');
 const userRoutes = require('./Routes/user.Routes');
+const productRoutes = require('./Routes/product.Routes');
 ports = process.env.port
 mongodb = process.env.mongodbs
 
@@ -19,6 +20,7 @@ mongoose.connect(mongodb).then(()=>{
 server.use(express.json());
 
 server.use('/api/user',userRoutes);
+server.use('/api/product',productRoutes);
 
 server.listen(ports,(req,res)=>{
     console.log(`server started at ${ports} `)

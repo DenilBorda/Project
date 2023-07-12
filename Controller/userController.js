@@ -44,7 +44,7 @@ exports.loginUser = async(req,res)=>{
         if(!Match){
             return res.json({msg:'User Password Incorrect'});
         }
-        const token = jwt.sign({userId:User._id},process.env.jwtoken,{expiresIn:'7d'});
+        const token = jwt.sign({userId:Exist._id},process.env.jwtoken,{expiresIn:'7d'});
         res.json({msg:'User is Login',token});
         
     } catch (error) {
@@ -55,7 +55,7 @@ exports.loginUser = async(req,res)=>{
 
 exports.getUser = async(req,res)=>{
     try {
-        const user = await User.findById(req.User._id).select('-Password')
+        const user = await User.findById(req.user._id).select('-Password')
         res.json(user) 
     } catch (error) {
         console.log(error);
@@ -67,7 +67,17 @@ exports.changePassword = async(req,res)=>{
     try {
         const {Password,Confrim_Password} = req.body
         if(Password === Confrim_Password){
-
+            const user = await User.findById(req.user._id);
+                if(!user){
+                    return res.json({msg:'User not found'});
+                }
+                const salt = await bcrypt.genSalt(10);
+                const hashpassword = await bcrypt.hash(Password,salt);
+                await User.findByIdAndUpdate(user._id,{$set:{Password:hashpassword}});
+                res.json({msg:'Password Is Changed....'});
+        }
+        else{
+            return res.json({msg:'Password And Confrim_Password Is not Match '})
         }
         
     } catch (error) {
@@ -75,10 +85,19 @@ exports.changePassword = async(req,res)=>{
         res.json({msg:'server error'});
     }
 }
+
 exports.updateUser = async(req,res)=>{
-
-}
-
-exports.deleteUser = async(req,res)=>{
-
+    try {
+        const user = await User.findById(req.user._id);
+        if(!user){
+            return res.json({msg:'User not found'});
+        }
+        const updatedUser = await User.findByIdAndUpdate(user._id,{$set:req.body},{new:true});
+        updatedUser.save();
+        res.json(updatedUser);
+        
+    } catch (error) {
+        console.log(error)
+        res.json({msg:'server error'});
+    }
 }

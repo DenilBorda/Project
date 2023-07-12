@@ -1,5 +1,5 @@
 const express = require('express');
-const{createUser,loginUser,getUser,changePassword,updateUser,deleteUser} = require('../Controller/userController');
+const{createUser,loginUser,getUser,changePassword,updateUser} = require('../Controller/userController');
 const userRoutes = express.Router();
 const isVerify  = require('../Middleware/auth');
 userRoutes.post('/',createUser);
@@ -12,6 +12,5 @@ userRoutes.post('/Changepassword',isVerify,changePassword);
 
 userRoutes.put('/update',isVerify,updateUser);
 
-userRoutes.delete('/delete',isVerify,deleteUser);
 
 module.exports = userRoutes;
