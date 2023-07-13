@@ -4,7 +4,7 @@ const{addProduct,getAllProduct,getProduct,updateProduct,deleteProduct}= require(
 
 const productRoutes = express.Router();
 
-productRoutes.post('Listing',addProduct);
+productRoutes.post('/Listing',addProduct);
 
 productRoutes.get('/',getAllProduct);
 

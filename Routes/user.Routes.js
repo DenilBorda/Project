@@ -2,7 +2,7 @@ const express = require('express');
 const{createUser,loginUser,getUser,changePassword,updateUser} = require('../Controller/userController');
 const userRoutes = express.Router();
 const isVerify  = require('../Middleware/auth');
-userRoutes.post('/',createUser);
+userRoutes.post('/Register',createUser);
 
 userRoutes.post('/Login',loginUser);
 
