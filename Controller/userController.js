@@ -24,7 +24,8 @@ exports.createUser = async(req,res)=>{
        
         newUser.save();
         res.status(201).json({newUser,msg:'User created....'})
-    }else{
+    }
+    else{
            return res.json({msg:'Password and Confrim_Password not match '})
         } 
     }catch (error) {

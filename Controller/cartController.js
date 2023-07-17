@@ -61,11 +61,11 @@ exports.updateCart = async (req, res) => {
 exports.deleteCart = async (req, res) => {
     try {
         const id = req.params.id;
-        const cart = Cart.findById(id);
+        const cart = await Cart.findById(id);
         if(!cart){
-            return res.json({msg:'Cart Not Found'});
+          return res.json({msg:'Cart Not Found'});
         }
-        const updatedCart = await Cart.findByIdAndDelete(cart._id);
+        const deletedCart = await Cart.findByIdAndDelete(cart._id);
         res.json({msg:'Cart Deleted'});
     } catch (error) {
         console.log(error);

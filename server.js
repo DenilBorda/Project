@@ -5,6 +5,9 @@ const mongoose = require('mongoose');
 const userRoutes = require('./Routes/user.Routes');
 const productRoutes = require('./Routes/product.Routes');
 const cartRoutes = require('./Routes/cart.Routes');
+const orderRoutes = require('./Routes/order.Routes');
+const rateRoutes = require('./Routes/rate.Routes');
+const favouriteRoutes = require('./Routes/favourite.Routes');
 ports = process.env.port
 mongodb = process.env.mongodbs
 
@@ -26,6 +29,9 @@ server.use(express.json());
 server.use('/api/user',userRoutes);
 server.use('/api/product',productRoutes);
 server.use('/api/cart',cartRoutes);
+server.use('/api/order',orderRoutes);
+server.use('/api/rate',rateRoutes);
+server.use('/api/favourite',favouriteRoutes);
 
 
 server.listen(ports,(req,res)=>{
