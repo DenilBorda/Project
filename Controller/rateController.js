@@ -2,13 +2,13 @@ const Rate = require('../Model/rateModel');
 const User = require('../Model/userModel');
 exports.addRate = async(req,res)=>{
     try {
-        const id = req.params.id;
+        const productId = req.params.id;
         const{Rates,Description} = req.body;
 
         const user = await User.findById(req.user._id);
 
         const newRate = await Rate.create({
-            product:id,
+            product:productId,
             user:user._id,
             Rates,
             Description
