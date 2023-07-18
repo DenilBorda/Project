@@ -3,13 +3,13 @@ const User = require('../Model/userModel');
 
 exports.addToFavourite = async(req,res)=>{
     try {
-        const id = req.params.id;
+        const productId = req.params.id;
 
         const user = await User.findById(req.user._id)
     
         const newFavourite = await Favourite.create({
             user:user._id,
-            product:id
+            product:productId
         })
     
         newFavourite.save();
